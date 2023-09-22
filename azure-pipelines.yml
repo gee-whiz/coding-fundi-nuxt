@@ -19,14 +19,12 @@ jobs:
   - task: Npm@1
     displayName: 'npm install'
     inputs:
-      workingDir: 'coding-fundi-nuxt'
       verbose: false
 
   - task: Npm@1
     displayName: 'npm run build'
     inputs:
       command: custom
-      workingDir: 'coding-fundi-nuxt'
       verbose: false
       customCommand: 'run build'
 
