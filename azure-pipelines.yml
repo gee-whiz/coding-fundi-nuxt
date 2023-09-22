@@ -9,13 +9,34 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+jobs:
+- job: BuildAndArchive
+  displayName: 'Build and Archive Vue App'
+  steps:
+  - checkout: self
+    fetchDepth: 1
 
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+  - task: Npm@1
+    displayName: 'npm install'
+    inputs:
+      workingDir: 'coding-fundi-nuxt'
+      verbose: false
+
+  - task: Npm@1
+    displayName: 'npm run build'
+    inputs:
+      command: custom
+      workingDir: 'coding-fundi-nuxt'
+      verbose: false
+      customCommand: 'run build'
+
+  - task: ArchiveFiles@2
+    displayName: 'Archive files'
+    inputs:
+      rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+      includeRootFolder: false
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish artifacts: drop'
+    inputs:
+      TargetPath: '\\my\share\$(Build.DefinitionName)\$(Build.BuildNumber)'
