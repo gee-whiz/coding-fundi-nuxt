@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="d-flex flex-column min-vh-100">
     <Header />
     <slot />
     <Footer />
@@ -7,3 +7,5 @@
 </template>
 
 <script setup lang="ts"></script>
+
+

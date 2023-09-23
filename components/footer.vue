@@ -19,7 +19,7 @@ TEMPLATE SCRIPT
         <a
           class="btn text-white btn-floating m-1"
           style="background-color: #55acee"
-          href="https://twitter.com/CodingFundi"
+          href="https://twitter.com/CodingFundi/"
           role="button"
           ><i class="fab fa-twitter"></i
         ></a>
@@ -36,7 +36,7 @@ TEMPLATE SCRIPT
         <a
           class="btn text-white btn-floating m-1"
           style="background-color: #0082ca"
-          href="https://www.linkedin.com/company/coding-fundi"
+          href="https://www.linkedin.com/company/coding-fundi/"
           role="button"
           ><i class="fab fa-linkedin-in"></i
         ></a>
