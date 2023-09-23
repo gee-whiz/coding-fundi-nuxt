@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-            <img :src="article.imageURL" class="img-fluid" :alt="article.title" />
+            <img :src="article.imageURL" class="img-fluid" style="width: 100%;" :alt="article.title" />
             <a href="#!">
                 <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
             </a>

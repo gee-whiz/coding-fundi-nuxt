@@ -32,7 +32,10 @@ const store = useStore();
 const articles = ref<Article[]>([]);
 const firstArticle = ref<Article | null>(null);
 const remainingArticles = ref<Article[]>([]);
+
 onMounted(async () => {
+    await store.fetchArticles();
+    await store.fetchAllAssets();
     articles.value = store.articles
     firstArticle.value = articles.value.length > 0 ? articles.value[0] : null;
     remainingArticles.value = articles.value.length > 0 ? articles.value.slice(1) : [];

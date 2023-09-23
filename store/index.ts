@@ -21,7 +21,6 @@ interface Article {
 interface State {
   articles: Article[];
   categoryArticles: Article[];
-  categoryId: string;
   assets: Record<string, string>;
   isSubscribed: boolean;
   isVerified: boolean;
@@ -33,7 +32,6 @@ export const useStore = defineStore({
   state: (): State => ({
     articles: [],
     categoryArticles: [],
-    categoryId: "",
     assets: {},
     isSubscribed: false,
     isVerified: false,
@@ -43,8 +41,8 @@ export const useStore = defineStore({
     async fetchArticles() {
       this.articles = await fetchArticles();
     },
-    async fetchArticlesByCategory() {
-      this.articles = await fetchArticlesByCategory(this.categoryId);
+    async fetchArticlesByCategory(id: string) {
+      this.articles = await fetchArticlesByCategory(id);
     },
 
     async fetchAllAssets() {

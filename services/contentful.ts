@@ -53,7 +53,7 @@ export const fetchArticlesByCategory = async (
                 "fields.category.sys.id": CategoryId,
             },
         });
-        console.log("Response:", response.data);
+        console.log("Category Response:", response.data);
         const articles = transformContentfulToArticle(response.data);
         return articles;
     } catch (error) {

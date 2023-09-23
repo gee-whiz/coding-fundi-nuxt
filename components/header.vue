@@ -7,18 +7,18 @@
                 <MDBNavbarItem to="/" active> Home </MDBNavbarItem>
                 <MDBNavbarItem v-for="category in categories" :key="category.name">
                     <client-only v-if="category.subcategories">
-                    <MDBDropdown class="nav-item" v-model="dropdown">
-                        <MDBDropdownToggle tag="a" class="nav-link" @click="dropdown = !dropdown">{{ category.name }}
-                        </MDBDropdownToggle>
-                        <MDBDropdownMenu>
-                            <MDBDropdownItem v-for="sub in category.subcategories" :key="sub.name"
-                                :to="`/${sub.route}/${sub.id}`" @click="
-                                    collapse1 = !collapse1;
-                                dropdown = !dropdown;
-                                ">{{ sub.name }}</MDBDropdownItem>
-                        </MDBDropdownMenu>
-                    </MDBDropdown>
-                </client-only>
+                        <MDBDropdown class="nav-item" v-model="dropdown">
+                            <MDBDropdownToggle tag="a" class="nav-link" @click="dropdown = !dropdown">{{ category.name }}
+                            </MDBDropdownToggle>
+                            <MDBDropdownMenu>
+                                <MDBDropdownItem v-for="sub in category.subcategories" :key="sub.name"
+                                    :to="`/${sub.route}/${sub.id}`" @click="
+                                        collapse1 = !collapse1;
+                                    dropdown = !dropdown;
+                                    ">{{ sub.name }}</MDBDropdownItem>
+                            </MDBDropdownMenu>
+                        </MDBDropdown>
+                    </client-only>
                     <MDBNavbarItem v-else :to="`/${category.route}/${category.id}`" @click="
                         collapse1 = !collapse1;
                     dropdown = !dropdown;">
