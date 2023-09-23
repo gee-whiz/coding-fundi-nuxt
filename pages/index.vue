@@ -2,7 +2,7 @@
     <MDBContainer>
     <MDBRow class="row">
       <MDBCol md="8">
-       <h1>MD 8</h1>
+       <ArticlesView/>
       </MDBCol>
       <MDBCol md="4">
         <Affiliate>
@@ -27,4 +27,28 @@
 
 <script setup lang="ts">
 import { MDBContainer, MDBCol, MDBRow } from "mdb-vue-ui-kit";
+import { useStore } from "@/store";
+
+const store = useStore();
+
+onMounted(async () => {
+  await store.fetchArticles();
+  await store.fetchAllAssets();
+});
 </script>
+
+<style scoped lang="scss">
+.btn-primary {
+  background-color: #0468bf;
+}
+
+.container {
+  margin-top: 50px;
+}
+
+@media screen and (max-width: 768px) {
+  .form-outline {
+    min-width: 180px;
+  }
+}
+</style>

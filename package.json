@@ -16,7 +16,14 @@
     "sass-loader": "^13.3.2"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.4.11",
+    "axios": "^1.5.0",
     "mdb-vue-ui-kit": "^4.0.0",
+    "moment": "^2.29.4",
+    "pinia": "^2.1.6",
     "vue3-toastify": "^0.1.12"
+  },
+  "overrides": {
+    "vue": "latest"
   }
 }

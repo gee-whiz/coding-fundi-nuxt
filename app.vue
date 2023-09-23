@@ -1,12 +1,16 @@
 <template>
   <NuxtLayout>
       <main class="flex-grow-1">
+        <MDBContainer>
         <NuxtPage />
+        </MDBContainer>
       </main>
   </NuxtLayout>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { MDBContainer } from "mdb-vue-ui-kit";
+</script>
 <style lang="scss">
 .d-flex {
   display: flex;
@@ -23,4 +27,10 @@
 .flex-grow-1 {
   flex-grow: 1;
 }
+
+.container {
+  margin-top: 70px;
+  margin-bottom: 16px;
+}
+
 </style>

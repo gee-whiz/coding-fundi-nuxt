@@ -23,7 +23,13 @@ export default defineNuxtConfig({
     host: "192.168.1.106", // default: "localhost
     port: 3000,
   },
-  output: {
-    publicPath: ''
+  modules: [
+    '@pinia/nuxt',
+  ],
+  pinia: {
+    autoImports: [
+      'defineStore', // import { defineStore } from 'pinia'
+      ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
+    ],
   },
 });

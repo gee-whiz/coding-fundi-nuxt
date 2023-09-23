@@ -1,6 +1,6 @@
 <template>
-    <MDBNavbar expand="lg" light bg="light" container>
-        <MDBNavbarBrand href="#">CodingFundi</MDBNavbarBrand>
+    <MDBNavbar expand="lg" light bg="light" position="top" container>
+        <MDBNavbarBrand href="/">CodingFundi</MDBNavbarBrand>
         <MDBNavbarToggler @click="collapse1 = !collapse1" target="#navbarSupportedContent"></MDBNavbarToggler>
         <MDBCollapse v-model="collapse1" id="navbarSupportedContent">
             <MDBNavbarNav class="mb-2 mb-lg-0">
@@ -50,14 +50,14 @@ import { ref } from "vue";
 const collapse1 = ref(false);
 const dropdown = ref(false);
 const categories = [
-    { name: "Tech Insights", route: "category", id: "EgSHPOGRh2Qxy3Ta5E3K8" },
+    { name: "Tech Insights", route: "categoryView", id: "EgSHPOGRh2Qxy3Ta5E3K8" },
     {
         name: "Tutorials",
         route: "",
         id: 2,
         subcategories: [
-            { name: "Swift", route: "category", id: "162W2d0fYq0f5PRdC3ggm4" },
-            { name: "Vue js", route: "category", id: "2AMM2Q21IYZGGuOOvzgAzF" },
+            { name: "Swift", route: "categoryView", id: "162W2d0fYq0f5PRdC3ggm4" },
+            { name: "Vue js", route: "categoryView", id: "2AMM2Q21IYZGGuOOvzgAzF" },
         ],
     },
 ];

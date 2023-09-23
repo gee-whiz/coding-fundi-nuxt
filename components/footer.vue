@@ -1,5 +1,3 @@
-TEMPLATE SCRIPT
-
 <template>
   <!-- Footer -->
   <MDBFooter :text="['center', 'lg-start', 'muted']">
