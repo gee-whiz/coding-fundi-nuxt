@@ -38,5 +38,5 @@ export default defineNuxtConfig({
       '/categoryView/id',
       '/articleDetails/id',
     ]
-  }
+  },
 });
