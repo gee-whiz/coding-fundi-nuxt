@@ -25,6 +25,7 @@ export default defineNuxtConfig({
   },
   modules: [
     '@pinia/nuxt',
+    '@nuxt/content',
   ],
   pinia: {
     autoImports: [
@@ -35,6 +36,7 @@ export default defineNuxtConfig({
   generate: {
     routes: [
       '/categoryView/id',
+      '/articleDetails/id',
     ]
   }
 });

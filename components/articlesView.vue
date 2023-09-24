@@ -1,10 +1,10 @@
 <template>
-    <NuxtLink v-if="firstArticle" to="/articleDetails">
+    <NuxtLink v-if="firstArticle" :to="`/articleDetails/${firstArticle.id}`">
         <FirstArticleView :article="firstArticle" />
     </NuxtLink>
     <section class="text-center">
         <div class="row row-cols-1 row-cols-md-2 g-4" style="margin-bottom: 16px">
-            <NuxtLink v-for="article in remainingArticles" :key="article.id" to="/articleDetails">
+            <NuxtLink v-for="article in remainingArticles" :key="article.id" :to="`/articleDetails/${article.id}`">
                 <ArticleView :article="article" />
             </NuxtLink>
         </div>

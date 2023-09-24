@@ -37,10 +37,20 @@ export const useStore = defineStore({
     isVerified: false,
   }),
 
+  getters: {
+    getArticleById: (state) => (id: string) => {
+      return state.articles.find((article) => article.id === id);
+    },
+
+    getAssetUrlById: (state) => (id: string) => {
+      return state.assets[id];
+    },
+  },
   actions: {
     async fetchArticles() {
       this.articles = await fetchArticles();
     },
+    
     async fetchArticlesByCategory(id: string) {
       this.articles = await fetchArticlesByCategory(id);
     },
