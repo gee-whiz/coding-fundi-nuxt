@@ -6,37 +6,17 @@
       and tutorials.
     </p>
 
-    <form
-      @submit.prevent="handleSubscribe"
-      class="seva-form formkit-form"
-      method="post"
-      data-format="inline"
-      data-version="5"
-      min-width=""
-    >
+    <form @submit.prevent="handleSubscribe" class="seva-form formkit-form" method="post" data-format="inline"
+      data-version="5" min-width="">
       <!--Errors-->
-      <ul
-        class="text-danger fw-bold"
-        data-element="errors"
-        data-group="alert"
-      ></ul>
+      <ul class="text-danger fw-bold" data-element="errors" data-group="alert"></ul>
 
       <!--Fields-->
-      <div
-        data-element="fields"
-        data-stacked="false"
-        class="d-flex d-inline-block justify-content-center"
-      >
+      <div data-element="fields" data-stacked="false" class="d-flex d-inline-block justify-content-center">
         <!--Email address-->
         <div class="form-outline w-50">
-          <MDBInput
-            label="Email address"
-            type="email"
-            id="form1"
-            required="true"
-            class="form-control"
-            v-model="emailInput"
-          />
+          <MDBInput label="Email address" type="email" id="form1" required="true" class="form-control"
+            v-model="emailInput" />
           <div class="form-notch">
             <div class="form-notch-leading" style="width: 9px"></div>
             <div class="form-notch-middle" style="width: 116.8px"></div>
@@ -63,6 +43,8 @@
 <script setup lang="ts">
 import { useStore } from "@/store";
 import { subscribe } from "@/services/subscription";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 import { MDBInput } from "mdb-vue-ui-kit";
 
 const store = useStore();
@@ -77,7 +59,7 @@ const handleSubscribe = async () => {
     } else {
       store.isSubscribed = true;
       store.isVerified = false;
-      console.log(
+      notify(
         "Please check your email and click on the verification link to complete your subscription.",
         "info"
       );
@@ -90,4 +72,11 @@ const handleSubscribe = async () => {
 onMounted(async () => {
   await store.checkSubscriptionStatus();
 });
+
+const notify = (message: string, toastType: any) => {
+  toast(message, {
+    autoClose: 3000,
+    type: toastType,
+  });
+};
 </script>

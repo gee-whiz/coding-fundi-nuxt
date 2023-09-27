@@ -23,7 +23,7 @@
 
             <div class="col-lg-6 text-center text-lg-right">
               <ShareNetwork v-for="network in networks" :key="network.network" :network="network.network"
-                :url="`https://192.168.1.106:3000/articles/${article.id}`" :title="article.title"
+                :url="`https://codingfundi.com/articles/${article.id}`" :title="article.title"
                 hashtags="codingfundi,tutorials,coding" :description="article.subtitle">
                 <button type="button" class="btn btn-primary px-3 mr-1" :style="{ 'background-color': network.color }">
                   <i :class="network.icon"></i>
@@ -77,29 +77,52 @@ const networks = ref([
 const html = ref<string>('');
 onMounted(async () => {
   article.value = store.getArticleById(articleId as string);
-
   const options = {
     renderNode: {
       [BLOCKS.PARAGRAPH]: (node: any) => {
+        let code = node.content[0].value;
         if (node.content && node.content[0]?.marks?.some((mark: any) => mark.type === 'code')) {
-          let code = node.content[0].value;
           const language = node.data?.language || 'javascript';
-          console.log(language);
-          return `<pre class='rich-code' style="margin: 0; border-radius:5px;"><code class="language-${language}">${Prism.highlight(code, Prism.languages[language], language)}</code></pre>`;
+          return `<pre style="border-radius:5px;" class="rich-code language-${language}"><code>${Prism.highlight(code, Prism.languages[language], language)}</code></pre>`;
         }
         return documentToHtmlString(node);
       },
       [BLOCKS.EMBEDDED_ASSET]: (node: any) => {
         const imageUrl = getAssetUrlById(node.data.target.sys.id);
-        return `<div><img  class="img-fluid shadow-2-strong rounded mb-4" src="${imageUrl}" alt="image" /></div>`;
+        return `<div><img  class="img-fluid shadow-2-strong rounded mb-4" style="margin-bottom: 0px;" src="${imageUrl}" alt="image" /></div>`;
       },
     },
   };
 
-  html.value = documentToHtmlString(article.value?.content, options);
+  const modifiedContent = selectWithCodeWrapper(article.value?.content);
+  html.value = documentToHtmlString({ nodeType: BLOCKS.DOCUMENT as const, data: {}, content: modifiedContent.content }, options);
   Prism.highlightAll();
 });
 
+const selectWithCodeWrapper = (content: { content: any; }) => {
+  const nodes = [...content.content] || [];
+  try {
+    for (let i = nodes.length - 1; i > -1; i--) {
+      if (
+        nodes[i] &&
+        nodes[i - 1] &&
+        nodes[i].nodeType === 'paragraph' &&
+        nodes[i].content[0]?.marks?.[0]?.type === 'code' &&
+        nodes[i - 1].content[0]?.marks?.[0]?.type === 'code'
+      ) {
+        nodes[i - 1].content[0].value += `\r` + nodes[i]?.content[0]?.value;
+        nodes.splice(i, 1);
+      }
+    }
+    return {
+      ...content,
+      content: nodes,
+    };
+  } catch (e) {
+    console.error(e);
+  }
+  return content;
+};
 
 useHead({
   title: article.value?.title,
@@ -116,13 +139,12 @@ useHead({
     { name: 'twitter:creator', content: '@codingfundi' },
     { property: 'og:title', content: article.value?.title },
     { property: 'og:type', content: 'article' },
-    { property: 'og:url', content: `https://http://192.168.1.106:3000/articles/${article.value?.id}` },
+    { property: 'og:url', content: `https://codingfundi.com/articles/${article.value?.id}` },
     { property: 'og:image', content: article.value?.imageURL },
     { property: 'og:description', content: article.value?.subtitle },
     { property: 'og:site_name', content: 'Coding Fundi' },
     { property: 'article:published_time', content: article.value?.datePublished },
     { property: 'article:modified_time', content: article.value?.datePublished },
-
   ]
 })
 
@@ -247,11 +269,32 @@ small {
   gap: 10px;
 }
 
+.code-block {
+  background-color: #282c34;
+  border-radius: 5px;
+  overflow: auto;
+  max-height: 300px;
+}
+
 .author {
   color: #2b2c34;
   font-size: 14px;
   margin: 0;
 }
+
+::v-deep p{
+  margin-bottom: 1em;
+}
+
+::v-deep h1, 
+::v-deep h2, 
+::v-deep h3, 
+::v-deep h4, 
+::v-deep h5, 
+::v-deep h6 {
+  margin-top: 1em;
+}
+
 
 @media screen and (max-width: 768px) {
   .card {
@@ -268,6 +311,7 @@ small {
     justify-content: top;
   }
 }
+
 </style>
 
 
