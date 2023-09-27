@@ -294,8 +294,6 @@ small {
 ::v-deep h6 {
   margin-top: 1em;
 }
-
-
 @media screen and (max-width: 768px) {
   .card {
     flex-direction: column;
