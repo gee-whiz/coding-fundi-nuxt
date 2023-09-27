@@ -39,8 +39,10 @@
       <!--Grid column-->
       <MDBCol md="4">
         <Affiliate>
+          <Sponsored />
+          <BookingAffiliate />
+          <Sponsored />
           <div class="text-center">
-            <Sponsored />
           </div>
           <iframe sandbox="allow-popups allow-scripts allow-modals allow-forms allow-same-origin"
             style="width: 120px; height: 240px" marginwidth="0" marginheight="0" scrolling="no" frameborder="0"
@@ -76,7 +78,9 @@ const networks = ref([
 
 const html = ref<string>('');
 onMounted(async () => {
+  await store.fetchArticleWithAssets(articleId as string);
   article.value = store.getArticleById(articleId as string);
+
   const options = {
     renderNode: {
       [BLOCKS.PARAGRAPH]: (node: any) => {
@@ -85,11 +89,11 @@ onMounted(async () => {
           const language = node.data?.language || 'javascript';
           return `<pre style="border-radius:5px;" class="rich-code language-${language}"><code>${Prism.highlight(code, Prism.languages[language], language)}</code></pre>`;
         }
-        return documentToHtmlString(node);
+        return `<p>${node.content[0].value}</p>`;
       },
       [BLOCKS.EMBEDDED_ASSET]: (node: any) => {
         const imageUrl = getAssetUrlById(node.data.target.sys.id);
-        return `<div><img  class="img-fluid shadow-2-strong rounded mb-4" style="margin-bottom: 0px;" src="${imageUrl}" alt="image" /></div>`;
+        return `<div"><img  class="img-fluid shadow-2-strong rounded mb-4" src="${imageUrl}" alt="image" /></div>`;
       },
     },
   };
@@ -224,10 +228,6 @@ small {
   color: #0468bf;
 }
 
-.container {
-  margin-top: 50px;
-}
-
 .floating-share {
   left: 0;
   right: 0;
@@ -282,15 +282,15 @@ small {
   margin: 0;
 }
 
-::v-deep p{
-  margin-bottom: 1em;
+::v-deep p {
+  margin-bottom: 32px;
 }
 
-::v-deep h1, 
-::v-deep h2, 
-::v-deep h3, 
-::v-deep h4, 
-::v-deep h5, 
+::v-deep h1,
+::v-deep h2,
+::v-deep h3,
+::v-deep h4,
+::v-deep h5,
 ::v-deep h6 {
   margin-top: 1em;
 }
@@ -311,7 +311,6 @@ small {
     justify-content: top;
   }
 }
-
 </style>
 
 

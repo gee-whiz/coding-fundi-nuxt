@@ -1,6 +1,6 @@
 import axios from "axios";
-import Article  from "../model/article";
-import Author  from "../model/author";
+import Article from "../model/article";
+import Author from "../model/author";
 import formatDateHumanReadable from "../utils/dateExtensions";
 
 const BASE_URL =
@@ -14,14 +14,13 @@ const instance = axios.create({
     },
 });
 
-export const fetchAllAssets = async (): Promise<any[]> => {
+export const fetchAllAssets = async (id: string): Promise<string> => {
     try {
-        const response = await instance.get("/assets?");
-        console.log("Asserts Response:", response.data.items);
-        return response.data.items;
+        const response = await instance.get(`/assets/${id}`);
+        return response.data.fields.file.url;
     } catch (error) {
         console.error("!!! Error fetching all assets:", error);
-        return [];
+        return "";
     }
 };
 
@@ -35,7 +34,7 @@ export const fetchArticles = async (): Promise<Article[]> => {
             },
         });
         console.log("Response:", response.data);
-        const articles = transformContentfulToArticle(response.data);
+        const articles = transformContentfulToArticles(response.data);
         return articles;
     } catch (error) {
         console.error("!!! Error fetching articles:", error);
@@ -54,10 +53,38 @@ export const fetchArticlesByCategory = async (
             },
         });
         console.log("Category Response:", response.data);
-        const articles = transformContentfulToArticle(response.data);
+        const articles = transformContentfulToArticles(response.data);
         return articles;
     } catch (error) {
         console.error("!!! Error fetching articles:", error);
+        return [];
+    }
+};
+
+export const fetchArticleById = async (
+    articleId: string
+): Promise<Article[]> => {
+    try {
+        const response = await instance.get("/entries?", {
+            params: {
+                content_type: "article",
+                "sys.id": articleId,
+            },
+        });
+        const articles = transformContentfulToArticles(response.data);
+        return articles;
+    } catch (error) {
+        console.error("!!! Error fetching articles:", error);
+        return [];
+    }
+};
+
+export const fetchAssetById = async (id: string): Promise<any[]> => {
+    try {
+        const response = await instance.get(`/assets?${id}`);
+        return response.data.item.fields.file.url;
+    } catch (error) {
+        console.error("!!! Error fetching all assets:", error);
         return [];
     }
 };
@@ -93,7 +120,7 @@ const extractImageUrl = (data: any, imageId: string): string => {
 };
 
 // Main transformation function for the Article
-const transformContentfulToArticle = (data: any): Article[] => {
+const transformContentfulToArticles = (data: any): Article[] => {
     const articles: Article[] = [];
 
     for (const item of data.items) {
@@ -121,4 +148,4 @@ const transformContentfulToArticle = (data: any): Article[] => {
     }
 
     return articles;
-}; 
+};

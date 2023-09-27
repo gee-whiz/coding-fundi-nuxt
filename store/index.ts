@@ -4,6 +4,8 @@ import {
   fetchArticles,
   fetchAllAssets,
   fetchArticlesByCategory,
+  fetchArticleById,
+  fetchAssetById,
 } from "@/services/contentful";
 
 import { checkSubscriptionStatus } from "@/services/subscription";
@@ -21,7 +23,7 @@ interface Article {
 interface State {
   articles: Article[];
   categoryArticles: Article[];
-  assets: Record<string, string>;
+  assets: Record<string, any>;
   isSubscribed: boolean;
   isVerified: boolean;
 }
@@ -43,7 +45,8 @@ export const useStore = defineStore({
     },
 
     getAssetUrlById: (state) => (id: string) => {
-      return state.assets[id];
+      const asset = state.assets[id];
+      return asset;
     },
   },
   actions: {
@@ -55,16 +58,26 @@ export const useStore = defineStore({
       this.articles = await fetchArticlesByCategory(id);
     },
 
-    async fetchAllAssets() {
-      const assets = await fetchAllAssets();
-      // Process assets to transform it into key-value pairs
-      const assetLookup: Record<string, string> = {};
-      for (const asset of assets) {
-        assetLookup[asset.sys.id] = asset.fields.file.url;
+    async fetchArticleWithAssets(id: string) {
+      this.articles = await fetchArticleById(id);
+      const article = this.articles.find((article) => article.id === id) as any;
+      if (article) {
+        const assetFetchPromises = article.content.content
+          .filter((node: any) => node.nodeType === 'embedded-asset-block')
+          .map(async (node: any) => {
+            const assetId = node.data.target.sys.id;
+            const assetData = await fetchAllAssets(assetId);
+            return { id: assetId, data: assetData };
+          });
+    
+        const assetsArray = await Promise.all(assetFetchPromises);
+        // Transforming array to a Record for easy lookup
+        this.assets = Object.fromEntries(
+          assetsArray.map(({ id, data }) => [id, data])
+        );
       }
-      this.assets = assetLookup;
     },
-
+    
     async checkSubscriptionStatus() {
       const subscriberId = localStorage.getItem("subscriber_id");
       if (subscriberId) {
