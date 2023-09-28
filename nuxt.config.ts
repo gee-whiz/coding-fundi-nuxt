@@ -46,4 +46,7 @@ export default defineNuxtConfig({
       '/articleDetails/id',
     ]
   },
+  nitro: { 
+    preset: 'azure',
+    },
 });
