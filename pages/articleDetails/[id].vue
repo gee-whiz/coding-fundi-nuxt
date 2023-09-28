@@ -22,7 +22,7 @@
 
             <div class="col-lg-6 text-center text-lg-right">
               <ShareNetwork v-for="network in networks" :key="network.network" :network="network.network"
-                :url="`https://codingfundi.com/articles/${article.id}`" :title="article.title"
+                :url="`https://codingfundistaging.azurewebsites.net/articles/${article.id}`" :title="article.title"
                 hashtags="codingfundi,tutorials,coding" :description="article.subtitle">
                 <button type="button" class="btn btn-primary px-3 mr-1" :style="{ 'background-color': network.color }">
                   <i :class="network.icon"></i>
@@ -207,7 +207,7 @@ useHead({
     { name: 'twitter:creator', content: '@codingfundi' },
     { property: 'og:title', content: article.value?.title },
     { property: 'og:type', content: 'article' },
-    { property: 'og:url', content: `https://codingfundi.com/articles/${article.value?.id}` },
+    { property: 'og:url', content: `https://codingfundistaging.azurewebsites.net/articles/${article.value?.id}` },
     { property: 'og:image', content: article.value?.imageURL },
     { property: 'og:description', content: article.value?.subtitle },
     { property: 'og:site_name', content: 'Coding Fundi' },
