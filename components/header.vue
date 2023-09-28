@@ -4,7 +4,9 @@
         <MDBNavbarToggler @click="collapse1 = !collapse1" target="#navbarSupportedContent"></MDBNavbarToggler>
         <MDBCollapse v-model="collapse1" id="navbarSupportedContent">
             <MDBNavbarNav class="mb-2 mb-lg-0">
-                <MDBNavbarItem to="/" active> Home </MDBNavbarItem>
+                <MDBNavbarItem to="/" active @click="
+                    collapse1 = !collapse1;
+                dropdown = !dropdown;">Home</MDBNavbarItem>
                 <MDBNavbarItem v-for="category in categories" :key="category.name">
                     <client-only v-if="category.subcategories">
                         <MDBDropdown class="nav-item" v-model="dropdown">
@@ -53,7 +55,6 @@
     </MDBModal>
 </template>
 <script setup lang="ts">
-import "vue3-toastify/dist/index.css";
 import "mdb-vue-ui-kit/css/mdb.min.css";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";

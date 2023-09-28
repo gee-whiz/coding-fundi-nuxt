@@ -4,7 +4,6 @@
       <div class="col-md-8 mb-4">
         <section class="border-bottom mb-4">
           <img :src="article.imageURL" class="img-fluid shadow-2-strong rounded mb-4" :alt="article.title" />
-
           <div class="row align-items-center mb-4">
             <div class="col-lg-6 text-center text-lg-left mb-3 m-lg-0">
               <div class="info">
@@ -63,9 +62,14 @@ import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 import { ref } from 'vue';
 import { BLOCKS } from '@contentful/rich-text-types';
 import Prism from 'prismjs';
-import 'prismjs/themes/prism.css';
+import 'prismjs/themes/prism-tomorrow.css';
+import 'prismjs/components/prism-python';  // Adds Python support
+import 'prismjs/components/prism-bash';    // Adds Bash/Shell support
+import 'prismjs/components/prism-css';
+import 'prismjs/components/prism-swift';
 import { MDBContainer, MDBRow, MDBCol } from "mdb-vue-ui-kit";
 
+let eventListeners: Function[] = [];
 const store = useStore();
 const articleId = route.params.id;
 const article = ref<Article | Article>();
@@ -87,7 +91,12 @@ onMounted(async () => {
         let code = node.content[0].value;
         if (node.content && node.content[0]?.marks?.some((mark: any) => mark.type === 'code')) {
           const language = node.data?.language || 'javascript';
-          return `<pre style="border-radius:5px;" class="rich-code language-${language}"><code>${Prism.highlight(code, Prism.languages[language], language)}</code></pre>`;
+          return `<div class="bg-black shadow-2-strong rounded">
+            <div class="code-header font-sans">
+        <span class="language-title "></span>
+        <button class="copy-button"><i class="far fa-clipboard"></i> Copy code</button></div>
+            <pre class="language-${language}" style="margin: 0; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;"
+><code>${Prism.highlight(code, Prism.languages[language], language)}</code></pre></div>`;
         }
         return `<p>${node.content[0].value}</p>`;
       },
@@ -101,7 +110,62 @@ onMounted(async () => {
   const modifiedContent = selectWithCodeWrapper(article.value?.content);
   html.value = documentToHtmlString({ nodeType: BLOCKS.DOCUMENT as const, data: {}, content: modifiedContent.content }, options);
   Prism.highlightAll();
+
+  document.body.addEventListener('click', (event) => {
+    if (event.target && (event.target as HTMLElement).classList.contains('copy-button')) {
+      const parentDiv = (event.target as HTMLElement).closest('div.bg-black');
+      const buttonElement = event.target as HTMLElement;
+      if (parentDiv) {
+        const codeBlock = parentDiv.querySelector('pre');
+        if (codeBlock) {
+          copyToClipboard(codeBlock.innerText);
+          // Find the text node within the button
+          // Find the Font Awesome icon within the button
+          const iconElement = buttonElement.querySelector('.fas');
+
+          // Add the pushed-in effect and change the icon and text
+          buttonElement.classList.add('copy-button-clicked');
+          if (iconElement) iconElement.className = 'fas fa-check';  // switch to a "check" icon
+          buttonElement.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+          // Remove the pushed-in effect after a small delay
+          setTimeout(() => {
+            buttonElement.classList.remove('copy-button-clicked');
+            if (iconElement) iconElement.className = 'far fa-clipboard'; // switch back to the "copy" icon
+            buttonElement.innerHTML = '<i class="far fa-clipboard"></i> Copy code';
+          }, 1000);
+        }
+      }
+    }
+  });
+
 });
+
+onUnmounted(() => {
+  eventListeners.forEach(remove => remove());
+  eventListeners = [];
+});
+
+function copyToClipboard(text: string) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.style.top = '0';
+  textarea.style.left = '0';
+  textarea.style.position = 'fixed';
+
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+
+  try {
+    document.execCommand('copy');
+  } catch (err) {
+    console.error('Could not copy text', err);
+  }
+
+  document.body.removeChild(textarea);
+}
+
 
 const selectWithCodeWrapper = (content: { content: any; }) => {
   const nodes = [...content.content] || [];
@@ -295,6 +359,46 @@ small {
   margin-top: 1em;
 }
 
+::v-deep .code-wrapper {
+  position: relative;
+  border-radius: 5px;
+}
+
+::v-deep .code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+::v-deep .language-title {
+  margin-left: 1em;
+  font-size: smaller;
+  color: #fff;
+  /* Adjust as needed */
+}
+
+::v-deep .copy-button {
+  margin-left: auto;
+  /* Push the button to the far right */
+  border: none;
+  color: #fff;
+  background: none;
+  cursor: pointer;
+  font-size: smaller;
+  display: flex;
+  align-items: center;
+}
+
+::v-deep .copy-button-clicked {
+  transform: scale(0.9);
+  transition: transform 0.2s ease-in-out;
+}
+
+::v-deep .copy-button i {
+  stroke: #ffffff;
+  margin-right: 0.5em;
+}
 
 @media screen and (max-width: 768px) {
   .card {
