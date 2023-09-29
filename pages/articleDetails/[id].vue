@@ -22,7 +22,7 @@
 
             <div class="col-lg-6 text-center text-lg-right">
               <ShareNetwork v-for="network in networks" :key="network.network" :network="network.network"
-                :url="`https://codingfundistaging.azurewebsites.net/articles/${article.id}`" :title="article.title"
+                :url="`https://coding-fundi-production.azurewebsites.net/articleDetails/${article.id}`" :title="article.title"
                 hashtags="codingfundi,tutorials,coding" :description="article.subtitle">
                 <button type="button" class="btn btn-primary px-3 mr-1" :style="{ 'background-color': network.color }">
                   <i :class="network.icon"></i>
@@ -191,30 +191,26 @@ const selectWithCodeWrapper = (content: { content: any; }) => {
   }
   return content;
 };
-
-useHead({
+if (article.value) {
+useSeoMeta ({
   title: article.value?.title,
-  meta: [
-    { name: 'description', content: article.value?.subtitle },
-    { name: 'keywords', content: 'codingfundi, tutorials, coding, programming, software development, web development, software engineering, web design, web development, coding tutorials, coding tutorials for beginners, coding tutorials for beginners ' },
-    { name: 'author', content: article.value?.author.name },
-    { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:site', content: '@codingfundi' },
-    { name: 'twitter:title', content: article.value?.title },
-    { name: 'twitter:description', content: article.value?.subtitle },
-    { name: 'twitter:image', content: article.value?.imageURL },
-    { name: 'twitter:image:alt', content: article.value?.title },
-    { name: 'twitter:creator', content: '@codingfundi' },
-    { property: 'og:title', content: article.value?.title },
-    { property: 'og:type', content: 'article' },
-    { property: 'og:url', content: `https://codingfundistaging.azurewebsites.net/articles/${article.value?.id}` },
-    { property: 'og:image', content: article.value?.imageURL },
-    { property: 'og:description', content: article.value?.subtitle },
-    { property: 'og:site_name', content: 'Coding Fundi' },
-    { property: 'article:published_time', content: article.value?.datePublished },
-    { property: 'article:modified_time', content: article.value?.datePublished },
-  ]
+  description: article.value?.subtitle,
+  keywords: 'codingfundi, tutorials, coding, programming, software development, web development, software engineering, web design, web development, coding tutorials, coding tutorials for beginners, coding tutorials for beginners ', 
+  ogDescription: article.value?.subtitle,
+  ogImage: article.value?.imageURL,
+  ogUrl: `https://coding-fundi-production.azurewebsites.net/articleDetails/${article.value?.id}`,
+  ogType: 'article',
+  ogSiteName: 'Coding Fundi',
+  twitterCard: 'summary_large_image',
+  twitterSite: '@codingfundi',
+  twitterTitle: article.value?.title,
+  twitterDescription: article.value?.subtitle,
+  twitterImage: article.value?.imageURL,
+  twitterImageAlt: article.value?.title,
+  twitterCreator: '@codingfundi',
 })
+}
+
 
 const getAssetUrlById = (id: string) => {
   const url = store.getAssetUrlById(id);
