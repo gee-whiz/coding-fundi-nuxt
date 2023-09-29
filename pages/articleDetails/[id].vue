@@ -74,6 +74,8 @@ const store = useStore();
 const articleId = route.params.id;
 const article = ref<Article | Article>();
 const html = ref<string>('');
+const description = ref<string>("");
+const imageURL = ref<string>('');
 
 const networks = ref([
   { network: "facebook", icon: "fab fa-facebook-f", color: "#3b5998" },
@@ -83,17 +85,22 @@ const networks = ref([
 
 
 useSeoMeta(() => ({
-  description: article.value?.subtitle,
-  ogDescription: article.value?.subtitle,
-  ogImage: article.value?.imageURL,
+  description: description.value,
+  ogDescription: description.value,
+  ogImage: imageURL.value,
   twitterCard: 'summary_large_image',
-  twitterImage: article.value?.imageURL,
+  twitterImage: imageURL.value,
 }));
 
 onMounted(async () => {
   await store.fetchArticleWithAssets(articleId as string);
   article.value = store.getArticleById(articleId as string);
   console.log("Article ready", article.value?.title);
+
+  if (article.value) {
+    description.value = article.value?.subtitle;
+    imageURL.value = article.value?.imageURL;
+  }
   const options = {
     renderNode: {
       [BLOCKS.PARAGRAPH]: (node: any) => {
