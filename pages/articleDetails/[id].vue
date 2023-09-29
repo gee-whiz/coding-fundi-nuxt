@@ -81,58 +81,20 @@ const networks = ref([
   { network: "linkedin", icon: "fab fa-linkedin-in", color: "#0082ca" },
 ]);
 
+
+//  useServerSeoMeta(() => ({
+//     description: article.value?.subtitle,
+//     ogDescription: article.value?.subtitle,
+//     ogImage: article.value?.imageURL,
+//     twitterCard: 'summary_large_image',
+//     twitterImage: article.value?.imageURL,
+//   }));
+
+
 onMounted(async () => {
   await store.fetchArticleWithAssets(articleId as string);
   article.value = store.getArticleById(articleId as string);
   console.log("Article ready", article.value?.title);
-
-  useHead(() => ({
-    title: article.value?.title,
-    meta: [
-      {
-        hid: 'description',
-        name: 'description',
-        content: article.value?.subtitle,
-      },
-      {
-        hid: 'og:description',
-        property: 'og:description',
-        content: article.value?.subtitle,
-      },
-      {
-        hid: 'og:image',
-        property: 'og:image',
-        content: article.value?.imageURL,
-      },
-      {
-        hid: 'og:title',
-        property: 'og:title',
-        content: article.value?.title,
-      },
-      {
-        hid: 'twitter:card',
-        name: 'twitter:card',
-        content: 'summary_large_image',
-      },
-      {
-        hid: 'twitter:description',
-        name: 'twitter:description',
-        content: article.value?.subtitle,
-      },
-      {
-        hid: 'twitter:image',
-        name: 'twitter:image',
-        content: article.value?.imageURL,
-      },
-      {
-        hid: 'twitter:title',
-        name: 'twitter:title',
-        content: article.value?.title,
-      },
-    ],
-  })
-  );
-
   const options = {
     renderNode: {
       [BLOCKS.PARAGRAPH]: (node: any) => {
@@ -189,18 +151,56 @@ onMounted(async () => {
 
 });
 
+useHead(() => ({
+  title: article.value?.title,
+  meta: [
+    {
+      hid: 'description',
+      name: 'description',
+      content: article.value?.subtitle,
+    },
+    {
+      hid: 'og:description',
+      property: 'og:description',
+      content: article.value?.subtitle,
+    },
+    {
+      hid: 'og:image',
+      property: 'og:image',
+      content: article.value?.imageURL,
+    },
+    {
+      hid: 'og:title',
+      property: 'og:title',
+      content: article.value?.title,
+    },
+    {
+      hid: 'twitter:card',
+      name: 'twitter:card',
+      content: 'summary_large_image',
+    },
+    {
+      hid: 'twitter:description',
+      name: 'twitter:description',
+      content: article.value?.subtitle,
+    },
+    {
+      hid: 'twitter:image',
+      name: 'twitter:image',
+      content: article.value?.imageURL,
+    },
+    {
+      hid: 'twitter:title',
+      name: 'twitter:title',
+      content: article.value?.title,
+    },
+  ],
+})
+);
 onUnmounted(() => {
   eventListeners.forEach(remove => remove());
   eventListeners = [];
 });
-
-// useServerSeoMeta({
-//     description: article.value?.subtitle,
-//     ogDescription: article.value?.subtitle,
-//     ogImage: article.value?.imageURL,
-//     twitterCard: 'summary_large_image',
-//     twitterImage: article.value?.imageURL,
-//   });
 
 function copyToClipboard(text: string) {
   const textarea = document.createElement('textarea');
