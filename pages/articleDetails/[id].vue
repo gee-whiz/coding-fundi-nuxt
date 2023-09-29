@@ -81,29 +81,57 @@ const networks = ref([
   { network: "linkedin", icon: "fab fa-linkedin-in", color: "#0082ca" },
 ]);
 
-watch(
-  () => article.value,
-  (newVal, oldVal) => {
-    if (newVal) {
-      useSeoMeta({
-        title: newVal.title,
-        ogTitle: newVal.title,
-        description: newVal.subtitle,
-        ogDescription: newVal.subtitle,
-        ogImage: newVal.imageURL,
-        twitterCard: 'summary_large_image',
-        twitterImage: newVal.imageURL,
-      });
-    }
-  },
-  { immediate: true }
-);
-
 onMounted(async () => {
   await store.fetchArticleWithAssets(articleId as string);
   article.value = store.getArticleById(articleId as string);
+  console.log("Article ready", article.value?.title);
 
-
+  useHead(() => ({
+    title: article.value?.title,
+    meta: [
+      {
+        hid: 'description',
+        name: 'description',
+        content: article.value?.subtitle,
+      },
+      {
+        hid: 'og:description',
+        property: 'og:description',
+        content: article.value?.subtitle,
+      },
+      {
+        hid: 'og:image',
+        property: 'og:image',
+        content: article.value?.imageURL,
+      },
+      {
+        hid: 'og:title',
+        property: 'og:title',
+        content: article.value?.title,
+      },
+      {
+        hid: 'twitter:card',
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      },
+      {
+        hid: 'twitter:description',
+        name: 'twitter:description',
+        content: article.value?.subtitle,
+      },
+      {
+        hid: 'twitter:image',
+        name: 'twitter:image',
+        content: article.value?.imageURL,
+      },
+      {
+        hid: 'twitter:title',
+        name: 'twitter:title',
+        content: article.value?.title,
+      },
+    ],
+  })
+  );
 
   const options = {
     renderNode: {
