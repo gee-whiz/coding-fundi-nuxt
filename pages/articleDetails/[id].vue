@@ -74,8 +74,8 @@ const store = useStore();
 const articleId = route.params.id;
 const article = ref<Article | Article>();
 const html = ref<string>('');
-const description = ref<string>("");
-const imageURL = ref<string>('');
+const description = ref<string>('"default description"');
+const imageURL = ref<string>('//images.ctfassets.net/svxuef11w26o/7mfsf7SwQGvYwVznGqHqh5/44f1a859ed4daaa1c874c01b042c76b9/pexels-realtoughcandycom-11035366.jpg');
 
 const networks = ref([
   { network: "facebook", icon: "fab fa-facebook-f", color: "#3b5998" },
@@ -84,13 +84,27 @@ const networks = ref([
 ]);
 
 
-useSeoMeta(() => ({
+useServerSeoMeta ({
   description: description.value,
   ogDescription: description.value,
   ogImage: imageURL.value,
   twitterCard: 'summary_large_image',
   twitterImage: imageURL.value,
-}));
+});
+
+// useServerSeoMeta({
+//   title: 'Coding Fundi',
+//   ogTitle: 'My Amazing Site',
+//   description: 'codingfundi, tutorials, coding, programming, software development, web development, software engineering, web design, web development, coding tutorials, coding tutorials for beginners, coding tutorials for beginners',
+//   ogDescription: 'codingfundi, tutorials, coding, programming, software development, web development, software engineering, web design, web development, coding tutorials, coding tutorials for beginners, coding tutorials for beginners',
+//   ogImage: '//images.ctfassets.net/svxuef11w26o/7mfsf7SwQGvYwVznGqHqh5/44f1a859ed4daaa1c874c01b042c76b9/pexels-realtoughcandycom-11035366.jpg',
+//   twitterCard: 'summary_large_image',
+//   twitterSite: '@codingfundi',
+//   twitterCreator: '@codingfundi',
+//   twitterTitle: 'Coding Fundi',
+//   twitterDescription: 'codingfundi, tutorials, coding, programming, software development, web development, software engineering, web design, web development, coding tutorials, coding tutorials for beginners, coding tutorials for beginners',
+//   twitterImage: '//images.ctfassets.net/svxuef11w26o/7mfsf7SwQGvYwVznGqHqh5/44f1a859ed4daaa1c874c01b042c76b9/pexels-realtoughcandycom-11035366.jpg',
+// })
 
 onMounted(async () => {
   await store.fetchArticleWithAssets(articleId as string);
