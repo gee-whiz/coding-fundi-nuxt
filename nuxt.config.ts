@@ -32,7 +32,6 @@ export default defineNuxtConfig({
   },
   modules: [
     '@pinia/nuxt',
-    '@nuxt/content',
   ],
   pinia: {
     autoImports: [
@@ -46,7 +45,4 @@ export default defineNuxtConfig({
       '/articleDetails/id',
     ]
   },
-  nitro: { 
-    preset: 'azure',
-    },
 });

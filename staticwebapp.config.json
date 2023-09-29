@@ -1,0 +1,26 @@
+{
+  "routes": [
+    {
+      "route": "/articleDetails/id",
+      "rewrite": "/articleDetails/id/index.html"
+    },
+    {
+      "route": "/categoryView/id",
+      "rewrite": "/categoryView/id/index.html"
+    },
+    {
+      "route": "/index.html",
+      "redirect": "/"
+    },
+    {
+      "route": "/",
+      "rewrite": "/api/server"
+    }
+  ],
+  "platform": {
+    "apiRuntime": "node:16"
+  },
+  "navigationFallback": {
+    "rewrite": "/api/server"
+  }
+}
