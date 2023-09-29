@@ -1,5 +1,12 @@
 <template>
   <MDBContainer fluid>
+
+    <Head>
+      <Meta name="description" :content="article?.title" />
+      <Meta property="og:title" :content="article?.title" />
+      <Meta property="og:description" :content="article?.subtitle" />
+      <Meta property="og:image" :content="article?.imageURL" />
+    </Head>
     <MDBRow v-if="article">
       <div class="col-md-8 mb-4">
         <section class="border-bottom mb-4">
@@ -81,26 +88,18 @@ const networks = ref([
   { network: "linkedin", icon: "fab fa-linkedin-in", color: "#0082ca" },
 ]);
 
-useServerSeoMeta({
-  title: 'Coding Fundi',
-  ogTitle: 'My Amazing Site',
-  description: 'codingfundi, tutorials, coding, programming, software development, web development, software engineering, web design, web development, coding tutorials, coding tutorials for beginners, coding tutorials for beginners',
-  ogDescription: 'codingfundi, tutorials, coding, programming, software development, web development, software engineering, web design, web development, coding tutorials, coding tutorials for beginners, coding tutorials for beginners',
-  ogImage: '//images.ctfassets.net/svxuef11w26o/7mfsf7SwQGvYwVznGqHqh5/44f1a859ed4daaa1c874c01b042c76b9/pexels-realtoughcandycom-11035366.jpg',
-  twitterCard: 'summary_large_image',
-})
 onMounted(async () => {
   await store.fetchArticleWithAssets(articleId as string);
   article.value = store.getArticleById(articleId as string);
-  console.log("Article ready", article.value?.title);
-  useServerSeoMeta({
-    title: article.value?.title,
-    ogTitle: article.value?.title,
-    description: article.value?.subtitle,
-    ogDescription: article.value?.subtitle,
-    ogImage: article.value?.imageURL,
-    twitterCard: 'summary_large_image',
-  });
+  // console.log("Article ready", article.value?.title);
+  // useServerSeoMeta({
+  //   title: article.value?.title,
+  //   ogTitle: article.value?.title,
+  //   description: article.value?.subtitle,
+  //   ogDescription: article.value?.subtitle,
+  //   ogImage: article.value?.imageURL,
+  //   twitterCard: 'summary_large_image',
+  // });
 
   const options = {
     renderNode: {
