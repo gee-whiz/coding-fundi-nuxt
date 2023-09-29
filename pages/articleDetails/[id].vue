@@ -22,8 +22,8 @@
 
             <div class="col-lg-6 text-center text-lg-right">
               <ShareNetwork v-for="network in networks" :key="network.network" :network="network.network"
-                :url="`https://coding-fundi-production.azurewebsites.net/articleDetails/${article.id}`" :title="article.title"
-                hashtags="codingfundi,tutorials,coding" :description="article.subtitle">
+                :url="`https://coding-fundi-production.azurewebsites.net/articleDetails/${article.id}`"
+                :title="article.title" hashtags="codingfundi,tutorials,coding" :description="article.subtitle">
                 <button type="button" class="btn btn-primary px-3 mr-1" :style="{ 'background-color': network.color }">
                   <i :class="network.icon"></i>
                 </button>
@@ -84,7 +84,6 @@ const html = ref<string>('');
 onMounted(async () => {
   await store.fetchArticleWithAssets(articleId as string);
   article.value = store.getArticleById(articleId as string);
-
   const options = {
     renderNode: {
       [BLOCKS.PARAGRAPH]: (node: any) => {
@@ -191,26 +190,6 @@ const selectWithCodeWrapper = (content: { content: any; }) => {
   }
   return content;
 };
-if (article.value) {
-useSeoMeta ({
-  title: article.value?.title,
-  description: article.value?.subtitle,
-  keywords: 'codingfundi, tutorials, coding, programming, software development, web development, software engineering, web design, web development, coding tutorials, coding tutorials for beginners, coding tutorials for beginners ', 
-  ogDescription: article.value?.subtitle,
-  ogImage: article.value?.imageURL,
-  ogUrl: `https://coding-fundi-production.azurewebsites.net/articleDetails/${article.value?.id}`,
-  ogType: 'article',
-  ogSiteName: 'Coding Fundi',
-  twitterCard: 'summary_large_image',
-  twitterSite: '@codingfundi',
-  twitterTitle: article.value?.title,
-  twitterDescription: article.value?.subtitle,
-  twitterImage: article.value?.imageURL,
-  twitterImageAlt: article.value?.title,
-  twitterCreator: '@codingfundi',
-})
-}
-
 
 const getAssetUrlById = (id: string) => {
   const url = store.getAssetUrlById(id);
