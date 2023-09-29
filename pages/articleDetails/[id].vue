@@ -1,12 +1,5 @@
 <template>
   <MDBContainer fluid>
-
-    <Head>
-      <Meta name="description" :content="article?.title" />
-      <Meta property="og:title" :content="article?.title" />
-      <Meta property="og:description" :content="article?.subtitle" />
-      <Meta property="og:image" :content="article?.imageURL" />
-    </Head>
     <MDBRow v-if="article">
       <div class="col-md-8 mb-4">
         <section class="border-bottom mb-4">
@@ -75,7 +68,7 @@ import 'prismjs/components/prism-bash';    // Adds Bash/Shell support
 import 'prismjs/components/prism-css';
 import 'prismjs/components/prism-swift';
 import { MDBContainer, MDBRow, MDBCol } from "mdb-vue-ui-kit";
-
+import { watch } from 'vue';
 let eventListeners: Function[] = [];
 const store = useStore();
 const articleId = route.params.id;
@@ -88,18 +81,29 @@ const networks = ref([
   { network: "linkedin", icon: "fab fa-linkedin-in", color: "#0082ca" },
 ]);
 
+watch(
+  () => article.value,
+  (newVal, oldVal) => {
+    if (newVal) {
+      useSeoMeta({
+        title: newVal.title,
+        ogTitle: newVal.title,
+        description: newVal.subtitle,
+        ogDescription: newVal.subtitle,
+        ogImage: newVal.imageURL,
+        twitterCard: 'summary_large_image',
+        twitterImage: newVal.imageURL,
+      });
+    }
+  },
+  { immediate: true }
+);
+
 onMounted(async () => {
   await store.fetchArticleWithAssets(articleId as string);
   article.value = store.getArticleById(articleId as string);
-  // console.log("Article ready", article.value?.title);
-  // useServerSeoMeta({
-  //   title: article.value?.title,
-  //   ogTitle: article.value?.title,
-  //   description: article.value?.subtitle,
-  //   ogDescription: article.value?.subtitle,
-  //   ogImage: article.value?.imageURL,
-  //   twitterCard: 'summary_large_image',
-  // });
+
+
 
   const options = {
     renderNode: {
@@ -161,6 +165,14 @@ onUnmounted(() => {
   eventListeners.forEach(remove => remove());
   eventListeners = [];
 });
+
+// useServerSeoMeta({
+//     description: article.value?.subtitle,
+//     ogDescription: article.value?.subtitle,
+//     ogImage: article.value?.imageURL,
+//     twitterCard: 'summary_large_image',
+//     twitterImage: article.value?.imageURL,
+//   });
 
 function copyToClipboard(text: string) {
   const textarea = document.createElement('textarea');
