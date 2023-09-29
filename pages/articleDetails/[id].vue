@@ -82,14 +82,13 @@ const networks = ref([
 ]);
 
 
-//  useServerSeoMeta(() => ({
-//     description: article.value?.subtitle,
-//     ogDescription: article.value?.subtitle,
-//     ogImage: article.value?.imageURL,
-//     twitterCard: 'summary_large_image',
-//     twitterImage: article.value?.imageURL,
-//   }));
-
+useSeoMeta(() => ({
+  description: article.value?.subtitle,
+  ogDescription: article.value?.subtitle,
+  ogImage: article.value?.imageURL,
+  twitterCard: 'summary_large_image',
+  twitterImage: article.value?.imageURL,
+}));
 
 onMounted(async () => {
   await store.fetchArticleWithAssets(articleId as string);
@@ -151,52 +150,6 @@ onMounted(async () => {
 
 });
 
-useHead(() => ({
-  title: article.value?.title,
-  meta: [
-    {
-      hid: 'description',
-      name: 'description',
-      content: article.value?.subtitle,
-    },
-    {
-      hid: 'og:description',
-      property: 'og:description',
-      content: article.value?.subtitle,
-    },
-    {
-      hid: 'og:image',
-      property: 'og:image',
-      content: article.value?.imageURL,
-    },
-    {
-      hid: 'og:title',
-      property: 'og:title',
-      content: article.value?.title,
-    },
-    {
-      hid: 'twitter:card',
-      name: 'twitter:card',
-      content: 'summary_large_image',
-    },
-    {
-      hid: 'twitter:description',
-      name: 'twitter:description',
-      content: article.value?.subtitle,
-    },
-    {
-      hid: 'twitter:image',
-      name: 'twitter:image',
-      content: article.value?.imageURL,
-    },
-    {
-      hid: 'twitter:title',
-      name: 'twitter:title',
-      content: article.value?.title,
-    },
-  ],
-})
-);
 onUnmounted(() => {
   eventListeners.forEach(remove => remove());
   eventListeners = [];
