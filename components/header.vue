@@ -10,7 +10,7 @@
                 <MDBNavbarItem v-for="category in categories" :key="category.name">
                     <client-only v-if="category.subcategories">
                         <MDBDropdown class="nav-item" v-model="dropdown">
-                            <MDBDropdownToggle tag="a" class="nav-link" @click="dropdown = !dropdown"  @mouseover="dropdown = !dropdown;">{{ category.name }}
+                            <MDBDropdownToggle tag="a" class="nav-link" @click="dropdown = !dropdown" >{{ category.name }}
                             </MDBDropdownToggle>
                             <MDBDropdownMenu>
                                 <MDBDropdownItem v-for="sub in category.subcategories" :key="sub.name"
