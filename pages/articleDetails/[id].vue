@@ -73,6 +73,11 @@ let eventListeners: Function[] = [];
 const store = useStore();
 const articleId = route.params.id;
 const article = ref<Article | Article>();
+const html = ref<string>('');
+await store.fetchArticleWithAssets(articleId as string);
+article.value = store.getArticleById(articleId as string);
+
+console.log("Article ready", article.value?.title);
 
 const networks = ref([
   { network: "facebook", icon: "fab fa-facebook-f", color: "#3b5998" },
@@ -80,10 +85,18 @@ const networks = ref([
   { network: "linkedin", icon: "fab fa-linkedin-in", color: "#0082ca" },
 ]);
 
-const html = ref<string>('');
+
+
+useSeoMeta({
+  title: article.value?.title,
+  ogTitle: article.value?.title,
+  description: article.value?.subtitle,
+  ogDescription: article.value?.subtitle,
+  ogImage: article.value?.imageURL,
+  twitterCard: 'summary_large_image',
+});
+
 onMounted(async () => {
-  await store.fetchArticleWithAssets(articleId as string);
-  article.value = store.getArticleById(articleId as string);
   const options = {
     renderNode: {
       [BLOCKS.PARAGRAPH]: (node: any) => {
