@@ -41,8 +41,8 @@ export default defineNuxtConfig({
   },
   generate: {
     routes: [
-      '/categoryView/id',
-      '/articleDetails/id',
+      '/category/id',
+      '/article/id',
     ]
   },
 });

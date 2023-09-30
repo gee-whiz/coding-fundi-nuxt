@@ -92,4 +92,4 @@ const props = defineProps({
         width: 100%;
     }
 }
-</style>
+</style>~/model/Article

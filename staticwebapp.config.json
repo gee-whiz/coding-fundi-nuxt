@@ -1,12 +1,12 @@
 {
   "routes": [
     {
-      "route": "/articleDetails/id",
-      "rewrite": "/articleDetails/id/index.html"
+      "route": "/article/id",
+      "rewrite": "/article/id/index.html"
     },
     {
-      "route": "/categoryView/id",
-      "rewrite": "/categoryView/id/index.html"
+      "route": "/category/id",
+      "rewrite": "/category/id/index.html"
     },
     {
       "route": "/index.html",

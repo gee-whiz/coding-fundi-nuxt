@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import Author from "@/model/author";
+import Author from "~/model/Author";
 import {
   fetchArticles,
   fetchAllAssets,
