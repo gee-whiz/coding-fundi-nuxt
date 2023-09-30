@@ -33,6 +33,6 @@ fetchAndSetArticle();
 useSeoMeta({
   description: () => `description: ${article.value?.title}`,
   ogDescription: () => `ogDescription: ${article.value?.title}`,
-  ogImage: () => `ogImage: ${article.value?.imageURL}`,
+  ogImage: () => `ogImage: //images.ctfassets.net/svxuef11w26o/7mfsf7SwQGvYwVznGqHqh5/44f1a859ed4daaa1c874c01b042c76b9/pexels-realtoughcandycom-11035366.jpg'}`,
 })
 </script>
