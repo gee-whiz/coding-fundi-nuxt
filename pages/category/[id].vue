@@ -1,14 +1,14 @@
 <template>
-    <MDBContainer>
+  <MDBContainer>
     <MDBRow class="row">
       <MDBCol md="8">
         <section class="text-center">
-        <div class="row row-cols-1 row-cols-md-2 g-4" style="margin-bottom: 16px">
+          <div class="row row-cols-1 row-cols-md-2 g-4" style="margin-bottom: 16px">
             <NuxtLink v-for="article in articles" :key="article.id" :to="`/article/${article.id}`">
-                <ArticleView :article="article" />
+              <ArticleView :article="article" />
             </NuxtLink>
-        </div>
-    </section>
+          </div>
+        </section>
       </MDBCol>
       <MDBCol md="4">
         <Affiliate>
@@ -28,7 +28,7 @@
 const route = useRoute()
 
 import { useStore } from "@/store";
-import Article from "~/model/article";
+import Article from "~/model/Article";
 import { MDBContainer, MDBCol, MDBRow } from "mdb-vue-ui-kit";
 import { ref } from 'vue';
 
@@ -37,8 +37,8 @@ const articles = ref<Article[]>([]);
 const categoryId = route.params.id;
 
 onMounted(async () => {
-    await store.fetchArticlesByCategory(categoryId as string);
-    articles.value = store.articles
+  await store.fetchArticlesByCategory(categoryId as string);
+  articles.value = store.articles
 });
 
-</script>~/model/Article
+</script>~/model/Article~/model/Article

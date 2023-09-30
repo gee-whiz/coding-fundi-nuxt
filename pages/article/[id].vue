@@ -57,7 +57,7 @@
 <script setup lang="ts">
 const route = useRoute()
 import { useStore } from "@/store";
-import Article from '~/model/article';
+import Article from '~/model/Article';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 import { ref, watch } from 'vue';
 import { BLOCKS } from '@contentful/rich-text-types';
@@ -412,4 +412,4 @@ small {
 </style>
 
 
-~/model/Article
+~/model/Article~/model/Article
