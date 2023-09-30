@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 
-import Article from '~/model/article';
+import Article from '~/model/Article';
 
 const props = defineProps({
     article: {
@@ -63,3 +63,4 @@ const props = defineProps({
 }
 </style>
 
+~/model/Article

@@ -101,14 +101,14 @@ const notify = (message: string, toastType: any) => {
 };
 
 const categories = [
-    { name: "Tech Insights", route: "categoryView", id: "EgSHPOGRh2Qxy3Ta5E3K8" },
+    { name: "Tech Insights", route: "category", id: "EgSHPOGRh2Qxy3Ta5E3K8" },
     {
         name: "Tutorials",
         route: "",
         id: 2,
         subcategories: [
-            { name: "Swift", route: "categoryView", id: "162W2d0fYq0f5PRdC3ggm4" },
-            { name: "Vue js", route: "categoryView", id: "2AMM2Q21IYZGGuOOvzgAzF" },
+            { name: "Swift", route: "category", id: "162W2d0fYq0f5PRdC3ggm4" },
+            { name: "Vue js", route: "category", id: "2AMM2Q21IYZGGuOOvzgAzF" },
         ],
     },
 ];

@@ -1,10 +1,10 @@
 <template>
-    <NuxtLink v-if="firstArticle" :to="`/articleDetails/${firstArticle.id}`">
+    <NuxtLink v-if="firstArticle" :to="`/article/${firstArticle.id}`">
         <FirstArticleView :article="firstArticle" />
     </NuxtLink>
     <section class="text-center">
         <div class="row row-cols-1 row-cols-md-2 g-4" style="margin-bottom: 16px">
-            <NuxtLink v-for="article in remainingArticles" :key="article.id" :to="`/articleDetails/${article.id}`">
+            <NuxtLink v-for="article in remainingArticles" :key="article.id" :to="`/article/${article.id}`">
                 <ArticleView :article="article" />
             </NuxtLink>
         </div>
@@ -14,7 +14,7 @@
 <script setup lang="ts">
 
 import { useStore } from "@/store";
-import Article from "~/model/article";
+import Article from "~/model/Article";
 
 import {
     MDBNavbar,
@@ -40,4 +40,4 @@ onMounted(async () => {
     remainingArticles.value = articles.value.length > 0 ? articles.value.slice(1) : [];
 });
 
-</script>
+</script>~/model/Article

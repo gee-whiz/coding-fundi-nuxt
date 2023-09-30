@@ -1,4 +1,4 @@
-import Author from "./author";
+import Author from "./Author";
 
 export default class Article {
     id: string;
