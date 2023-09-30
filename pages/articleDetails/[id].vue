@@ -1,4 +1,5 @@
 <template>
+  <ClientOnly>
   <MDBContainer fluid>
     <MDBRow v-if="article">
       <div class="col-md-8 mb-4">
@@ -51,6 +52,7 @@
       <!--Grid column-->
     </MDBRow>
   </MDBContainer>
+</ClientOnly>
 </template>
 
 
@@ -68,7 +70,6 @@ import 'prismjs/components/prism-bash';    // Adds Bash/Shell support
 import 'prismjs/components/prism-css';
 import 'prismjs/components/prism-swift';
 import { MDBContainer, MDBRow, MDBCol } from "mdb-vue-ui-kit";
-import { useHead } from 'unhead'
 let eventListeners: Function[] = [];
 const store = useStore();
 const articleId = route.params.id;
@@ -83,13 +84,6 @@ const networks = ref([
   { network: "linkedin", icon: "fab fa-linkedin-in", color: "#0082ca" },
 ]);
 
-// useServerSeoMeta({
-//     description: description.value,
-//     ogDescription: description.value,
-//     ogImage: imageURL.value,
-//     twitterCard: 'summary_large_image',
-//     twitterImage: imageURL.value,
-//   });
 
 // useServerSeoMeta({
 //   title: 'Coding Fundi',
@@ -105,21 +99,19 @@ const networks = ref([
 //   twitterImage: '//images.ctfassets.net/svxuef11w26o/7mfsf7SwQGvYwVznGqHqh5/44f1a859ed4daaa1c874c01b042c76b9/pexels-realtoughcandycom-11035366.jpg',
 // })
 
-
 onMounted(async () => {
   await store.fetchArticleWithAssets(articleId as string);
   article.value = store.getArticleById(articleId as string);
   console.log("Article ready", article.value?.title);
-  useHead({
-    title: article.value?.title,
-    meta: [
-      { name: 'description', content: article.value?.subtitle },
-      { name: 'og:description', content: article.value?.subtitle  },
-      { name: 'og:image', content: article.value?.imageURL },
-      { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:image', content: article.value?.imageURL },
-    ],
+
+  useSeoMeta({
+    description: article.value?.subtitle,
+    ogDescription: article.value?.subtitle,
+    ogImage: article.value?.imageURL,
+    twitterCard: 'summary_large_image',
+    twitterImage: article.value?.imageURL,
   });
+
   const options = {
     renderNode: {
       [BLOCKS.PARAGRAPH]: (node: any) => {

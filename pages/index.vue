@@ -21,9 +21,6 @@
 
 <script setup lang="ts">
 import { MDBContainer, MDBCol, MDBRow } from "mdb-vue-ui-kit";
-import { createHead } from 'unhead'
-
-createHead()
 
 // useServerSeoMeta({
 //   title: 'Coding Fundi',
