@@ -22,6 +22,7 @@
 <script setup lang="ts">
 import { MDBContainer, MDBCol, MDBRow } from "mdb-vue-ui-kit";
 
+
 // useServerSeoMeta({
 //   title: 'Coding Fundi',
 //   ogTitle: 'My Amazing Site',
