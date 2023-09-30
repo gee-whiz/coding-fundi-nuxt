@@ -1,6 +1,6 @@
 import axios from "axios";
 import Author from "../model/author";
-import Article from "../model/Article";
+import Article from "~/model/article";
 import formatDateHumanReadable from "../utils/dateExtensions";
 
 const BASE_URL =
