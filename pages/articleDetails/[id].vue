@@ -52,7 +52,7 @@
       <!--Grid column-->
     </MDBRow>
   </MDBContainer>
-</ClientOnly>
+  </ClientOnly>
 </template>
 
 
@@ -65,18 +65,14 @@ import { ref } from 'vue';
 import { BLOCKS } from '@contentful/rich-text-types';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism-tomorrow.css';
-import 'prismjs/components/prism-python';  // Adds Python support
-import 'prismjs/components/prism-bash';    // Adds Bash/Shell support
-import 'prismjs/components/prism-css';
-import 'prismjs/components/prism-swift';
 import { MDBContainer, MDBRow, MDBCol } from "mdb-vue-ui-kit";
+import { watch } from 'vue';
 let eventListeners: Function[] = [];
 const store = useStore();
 const articleId = route.params.id;
 const article = ref<Article | Article>();
 const html = ref<string>('');
-const description = ref<string>('');
-const imageURL = ref<string>('');
+
 
 const networks = ref([
   { network: "facebook", icon: "fab fa-facebook-f", color: "#3b5998" },
@@ -85,33 +81,31 @@ const networks = ref([
 ]);
 
 
-// useServerSeoMeta({
-//   title: 'Coding Fundi',
-//   ogTitle: 'My Amazing Site',
-//   description: 'codingfundi, tutorials, coding, programming, software development, web development, software engineering, web design, web development, coding tutorials, coding tutorials for beginners, coding tutorials for beginners',
-//   ogDescription: 'codingfundi, tutorials, coding, programming, software development, web development, software engineering, web design, web development, coding tutorials, coding tutorials for beginners, coding tutorials for beginners',
-//   ogImage: '//images.ctfassets.net/svxuef11w26o/7mfsf7SwQGvYwVznGqHqh5/44f1a859ed4daaa1c874c01b042c76b9/pexels-realtoughcandycom-11035366.jpg',
-//   twitterCard: 'summary_large_image',
-//   twitterSite: '@codingfundi',
-//   twitterCreator: '@codingfundi',
-//   twitterTitle: 'Coding Fundi',
-//   twitterDescription: 'codingfundi, tutorials, coding, programming, software development, web development, software engineering, web design, web development, coding tutorials, coding tutorials for beginners, coding tutorials for beginners',
-//   twitterImage: '//images.ctfassets.net/svxuef11w26o/7mfsf7SwQGvYwVznGqHqh5/44f1a859ed4daaa1c874c01b042c76b9/pexels-realtoughcandycom-11035366.jpg',
-// })
+const description = computed(() => article.value?.subtitle);
+const imageURL = computed(() => article.value?.imageURL);
+
+watch(
+  () => article.value,  // Watching this computed property
+  (newArticle) => {
+    if (newArticle) {
+      console.log("description", newArticle.subtitle);
+      // Update SEO meta when article is updated
+      useSeoMeta({
+        description: newArticle.subtitle,
+        ogDescription: newArticle.subtitle,
+        ogImage: newArticle.imageURL,
+        twitterCard: 'summary_large_image',
+        twitterImage: newArticle.imageURL,
+      });
+    }
+  },
+  { immediate: true }
+);
+
 
 onMounted(async () => {
   await store.fetchArticleWithAssets(articleId as string);
   article.value = store.getArticleById(articleId as string);
-  console.log("Article ready", article.value?.title);
-
-  useSeoMeta({
-    description: article.value?.subtitle,
-    ogDescription: article.value?.subtitle,
-    ogImage: article.value?.imageURL,
-    twitterCard: 'summary_large_image',
-    twitterImage: article.value?.imageURL,
-  });
-
   const options = {
     renderNode: {
       [BLOCKS.PARAGRAPH]: (node: any) => {
@@ -172,6 +166,7 @@ onUnmounted(() => {
   eventListeners.forEach(remove => remove());
   eventListeners = [];
 });
+
 
 function copyToClipboard(text: string) {
   const textarea = document.createElement('textarea');
