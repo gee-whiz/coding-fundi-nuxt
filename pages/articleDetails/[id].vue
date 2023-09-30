@@ -22,7 +22,7 @@
 
             <div class="col-lg-6 text-center text-lg-right">
               <ShareNetwork v-for="network in networks" :key="network.network" :network="network.network"
-                :url="`https://coding-fundi-production.azurewebsites.net/articleDetails/${article.id}`"
+                :url="`https://codingfundi.com/articleDetails/${article.id}`"
                 :title="article.title" hashtags="codingfundi,tutorials,coding" :description="article.subtitle">
                 <button type="button" class="btn btn-primary px-3 mr-1" :style="{ 'background-color': network.color }">
                   <i :class="network.icon"></i>
