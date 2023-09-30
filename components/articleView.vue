@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 
-import Article from '~/model/Article';
+import Article from '~/model/article';
 
 const props = defineProps({
     article: {
