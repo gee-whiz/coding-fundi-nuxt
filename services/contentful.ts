@@ -1,5 +1,5 @@
 import axios from "axios";
-import Author from "../model/Author";
+import Author from "../model/author";
 import Article from "../model/Article";
 import formatDateHumanReadable from "../utils/dateExtensions";
 
