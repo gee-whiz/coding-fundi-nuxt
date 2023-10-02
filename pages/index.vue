@@ -15,9 +15,9 @@
         </Affiliate>
       </MDBCol>
     </MDBRow>
+    <CookieView />
   </MDBContainer>
 </template>
-
 
 <script setup lang="ts">
 import { MDBContainer, MDBCol, MDBRow } from "mdb-vue-ui-kit";

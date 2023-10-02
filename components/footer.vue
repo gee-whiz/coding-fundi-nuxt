@@ -94,7 +94,6 @@
       All rights reserved.
     </div>
     <!-- Copyright -->
-    <Cookie />
   </MDBFooter>
   <!-- Footer -->
 </template>

@@ -18,23 +18,23 @@
 
 
 <script setup lang="ts">
-
 const isHidden = ref(false);
-const savedCookie = localStorage.getItem("cookie");
+import { ref } from 'vue';
 
-if (savedCookie === "true") {
-    isHidden.value = true;
-}
+onMounted(() => {
+    const savedCookie = localStorage.getItem("cookie");
+    if (savedCookie === "true") {
+        isHidden.value = true;
+    }
+});
 const acceptCookies = () => {
-    localStorage.setItem("cookie", "true");
     isHidden.value = true;
+    localStorage.setItem("cookie", "true");
 };
 const declineCookies = () => {
-    localStorage.setItem("cookie", "false");
     isHidden.value = true;
+    localStorage.setItem("cookie", "false");
 };
-
-
 
 </script>
 
