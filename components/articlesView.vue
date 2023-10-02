@@ -14,7 +14,7 @@
 <script setup lang="ts">
 
 import { useStore } from "@/store";
-import Article from "~/model/Article";
+import Article from "~/model/article";
 
 import {
     MDBNavbar,

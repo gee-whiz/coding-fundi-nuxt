@@ -32,6 +32,8 @@ export default defineNuxtConfig({
   },
   modules: [
     '@pinia/nuxt',
+    '@nuxt/devtools',
+    'nuxt-simple-sitemap'
   ],
   pinia: {
     autoImports: [
@@ -44,5 +46,8 @@ export default defineNuxtConfig({
       '/category/id',
       '/article/id',
     ]
+  },
+  site: {
+    url: 'https://codingfundi.com/',
   },
 });
