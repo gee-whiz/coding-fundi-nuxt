@@ -28,7 +28,7 @@
 const route = useRoute()
 
 import { useStore } from "@/store";
-import Article from "~/model/Article";
+import Article from "~/model/article";
 import { MDBContainer, MDBCol, MDBRow } from "mdb-vue-ui-kit";
 import { ref } from 'vue';
 
