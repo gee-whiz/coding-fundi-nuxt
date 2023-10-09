@@ -43,6 +43,7 @@ export default defineNuxtConfig({
   },
   generate: {
     routes: [
+      '/', 'sitemap.xml',
       '/category/id',
       '/article/id',
     ]
